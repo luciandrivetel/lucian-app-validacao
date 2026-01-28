@@ -1,0 +1,34 @@
+git remote set-url origin git@github.com:luciandrivetel/lucian-app-validacao.git
+
+
+
+
+nano ~/.ssh/config
+
+# Cont principal (implicit)
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+
+# Cont secundar
+Host github-alt
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_alt
+
+
+git config user.name "Alt User"
+git config user.email "emailul.altuser@example.com"
+
+
+git remote add origin git@github-alt:altuser/proiect-alt.git
+github-alt → alias din ~/.ssh/config
+
+altuser/proiect-alt.git → user și repo corect
+
+
+
+
+
+ssh-keygen -t ed25519 -C "email@corect.com"
