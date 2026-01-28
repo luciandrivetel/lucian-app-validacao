@@ -1,0 +1,75 @@
+name: app-validacao
+
+services:
+    # image project
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: app-validacao:v1
+        container_name: app-val-app
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - redis
+        networks:
+            - app-val
+
+    # nginx
+    nginx:
+        image: nginx:alpine
+        container_name: app-val-nginx
+        restart: unless-stopped
+        ports:
+            - "8088:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        networks:
+            - app-val
+
+    # db mysql
+    db:
+        image: mysql:8.0
+        container_name: app-val-db
+        platform: linux/x86_64
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+            MYSQL_PASSWORD: ${DB_PASSWORD:-userpass}
+            MYSQL_USER: ${DB_USERNAME:-username}
+        volumes:
+            - ./.docker/mysql/dbdata:/var/lib/mysql
+        ports:
+            - "3300:3306"
+        networks:
+            - app-val
+
+    # PHPMyAdmin
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: app-val-pmd
+        platform: linux/x86_64
+        restart: unless-stopped
+        ports:
+            - "8080:80"
+        environment:
+            PMA_HOST: db
+            PMA_PORT: 3306
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+        networks:
+            - app-val
+
+    # redis
+    redis:
+        image: redis:latest
+        container_name: app-val-redis
+        networks:
+            - app-val
+
+networks:
+    app-val:
+        driver: bridge
