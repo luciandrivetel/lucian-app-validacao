@@ -5,7 +5,7 @@ Clone Repositório
 git clone https://github.com/luciandrivetel/lucian-app-validacao lucian-app-validacao
 ```
 ```sh
-cd app-laravel
+cd lucian-app-validacao
 ```
 
 Suba os containers do projeto
@@ -46,4 +46,3 @@ php artisan migrate
 ```
 
 Acesse o projeto
-[http://localhost:8000](http://localhost:8000)
