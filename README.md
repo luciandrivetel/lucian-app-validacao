@@ -2,7 +2,7 @@
 ### Passo a passo
 Clone Repositório
 ```sh
-git clone https://github.com/especializati/setup-docker-laravel.git lucian-app-validacao
+git clone https://github.com/luciandrivetel/lucian-app-validacao lucian-app-validacao
 ```
 ```sh
 cd app-laravel
